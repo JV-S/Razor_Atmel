@@ -49,7 +49,7 @@ volatile u32 G_u32UserApp1Flags;                       /* Global state flags */
 extern volatile u32 G_u32SystemFlags;                  /* From main.c */
 extern volatile u32 G_u32ApplicationFlags;             /* From main.c */
 
-extern volatile u32 G_u32SystemTime1ms;                /* From board-specific source file */
+extern volatile u32;                /* From board-specific source file */
 extern volatile u32 G_u32SystemTime1s;                 /* From board-specific source file */
 
 
@@ -60,7 +60,10 @@ Variable names shall start with "UserApp1_" and be declared as static.
 static fnCode_type UserApp1_StateMachine;            /* The state machine function pointer */
 //static u32 UserApp1_u32Timeout;                      /* Timeout counter used across states */
 
-
+/********************************************************************
+  Constants/Definitions
+*********************************************************************/
+#define COUNTER_LIMIT_MS    (u32)500
 /**********************************************************************************************************************
 Function Definitions
 **********************************************************************************************************************/
@@ -136,6 +139,12 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
+  static u32 u32Counter = 0;
+  u32Counter++;
+ if(u32Counter == COUNTER_LIMIT_MS)
+  {
+    u32Counter=0;
+  }
 
 } /* end UserApp1SM_Idle() */
     
