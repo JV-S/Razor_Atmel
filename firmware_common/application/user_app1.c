@@ -63,7 +63,7 @@ static fnCode_type UserApp1_StateMachine;            /* The state machine functi
 /********************************************************************
   Constants/Definitions
 *********************************************************************/
-#define COUNTER_LIMIT_MS    (u32)500
+#define COUNTER_LIMIT_MS    (u32)977
 /**********************************************************************************************************************
 Function Definitions
 **********************************************************************************************************************/
@@ -90,7 +90,7 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
- 
+  //HEARTBEAT_OFF();
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -140,10 +140,49 @@ State Machine Function Definitions
 static void UserApp1SM_Idle(void)
 {
   static u32 u32Counter = 0;
+  static u32 u32RateCounter = 0;
+  static u32 u32RateFactor = 1;
+  static bool bRateSign = FALSE;
+  static bool bLightIsOn = FALSE;
+  
   u32Counter++;
- if(u32Counter == COUNTER_LIMIT_MS)
+  u32RateCounter++;
+  
+  
+ if(u32Counter == (COUNTER_LIMIT_MS/u32RateFactor))
   {
     u32Counter=0;
+    if(bLightIsOn)
+    {
+      HEARTBEAT_OFF();
+    }
+    else
+    {
+      HEARTBEAT_ON();
+    }
+    bLightIsOn = !bLightIsOn;
+  }
+ if (u32RateFactor == 15)
+  {
+    u32Counter=0;
+    bRateSign = TRUE;
+  }
+  if (u32RateFactor == 1)
+  {
+    u32Counter=0;
+    bRateSign = FALSE;
+  }
+  if (u32RateCounter == 2000)
+  {
+    u32RateCounter=0;
+    if(bRateSign)
+    {
+      u32RateFactor--;
+    }
+    else
+    {
+      u32RateFactor++;
+    }
   }
 
 } /* end UserApp1SM_Idle() */
