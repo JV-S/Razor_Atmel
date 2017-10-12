@@ -149,7 +149,7 @@ static void UserApp1SM_Idle(void)
   u32RateCounter++;
   
   
- if(u32Counter == (COUNTER_LIMIT_MS/u32RateFactor))
+ if(u32Counter >= (COUNTER_LIMIT_MS/u32RateFactor))
   {
     u32Counter=0;
     if(bLightIsOn)
@@ -162,17 +162,17 @@ static void UserApp1SM_Idle(void)
     }
     bLightIsOn = !bLightIsOn;
   }
- if (u32RateFactor == 15)
+ if (u32RateFactor == 65)
   {
-    u32Counter=0;
+    //u32Counter=0;
     bRateSign = TRUE;
   }
   if (u32RateFactor == 1)
   {
-    u32Counter=0;
+    //u32Counter=0;
     bRateSign = FALSE;
   }
-  if (u32RateCounter == 2000)
+  if (u32RateCounter == 500)
   {
     u32RateCounter=0;
     if(bRateSign)
