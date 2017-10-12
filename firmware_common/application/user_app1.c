@@ -64,7 +64,7 @@ static fnCode_type UserApp1_StateMachine;            /* The state machine functi
 /**********************************************************************************************************************
 Function Definitions
 **********************************************************************************************************************/
-
+#define SEC4 (u32)4000
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Public functions                                                                                                   */
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -88,6 +88,21 @@ Promises:
 void UserApp1Initialize(void)
 {
  
+  LedOff(CYAN);
+  LedOff(GREEN);
+  LedOff(YELLOW);
+  LedOff(ORANGE);
+  LedOff(PURPLE);
+  LedOff(WHITE);
+  LedPWM(RED, LED_PWM_0);
+  LedOff(BLUE);
+  
+  
+  LedOff(LCD_RED);
+  LedOff(LCD_BLUE);
+  LedOff(LCD_GREEN);
+  //LedPWM(RED, LED_PWM_5);
+
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -136,7 +151,37 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
-
+    static u32 u32RedLedFadeCounter=0;
+    static LedRateType eRedFadePWM = LED_PWM_0;
+    static u32 u32RedLedFadePWMState=0;
+    static bool bRedLedFadeDirection=TRUE;
+    
+    u32RedLedFadeCounter++;
+    if (u32RedLedFadePWMState == 20)
+    {
+      bRedLedFadeDirection=FALSE;
+    }
+    if (u32RedLedFadePWMState == 0)
+    {
+      bRedLedFadeDirection=TRUE;
+    }
+    
+    if (u32RedLedFadeCounter >= 40)
+    {
+      u32RedLedFadeCounter =0;
+      if (bRedLedFadeDirection)
+      {
+        eRedFadePWM++;
+        u32RedLedFadePWMState++;
+      }
+      else
+      {
+        eRedFadePWM--;
+        u32RedLedFadePWMState--;
+      }
+     LedPWM(RED, eRedFadePWM);
+    }
+  
 } /* end UserApp1SM_Idle() */
     
 
