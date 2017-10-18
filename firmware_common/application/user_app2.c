@@ -46,6 +46,10 @@ Variable names shall start with "UserApp2_" and be declared as static.
 static fnCode_type UserApp2_StateMachine;            /* The state machine function pointer */
 //static u32 UserApp2_u32Timeout;                      /* Timeout counter used across states */
 
+/****************************************************************
+FUNCTION DECLARATION
+****************************************************************/
+
 
 /**********************************************************************************************************************
 Function Definitions
@@ -122,7 +126,67 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp2SM_Idle(void)
 {
-    
+  static u32 u32counter=0;
+  
+  
+  
+  /*
+  LedOff(CYAN);
+  LedOff(GREEN);
+  LedOff(YELLOW);
+  LedOff(ORANGE);
+  LedOff(PURPLE);
+  LedOff(WHITE);
+  LedOff(BLUE);
+  */
+  
+  if(u32counter>=1000)
+  {
+   LedOn(CYAN);
+  }
+  
+  if(u32counter>=2000)
+  {
+   LedOn(GREEN);
+  }
+  
+  if(u32counter>=3000)
+  {
+   LedOn(YELLOW);
+  }
+  
+  if(u32counter>=4000)
+  {
+   LedOn(ORANGE);
+  }
+  
+  if(u32counter>=7000)
+  {
+   LedOn(PURPLE);
+  }
+  
+  if(u32counter>=5000)
+  {
+   LedOn(WHITE);
+  }
+  
+  if(u32counter>=6000)
+  {
+   LedOn(BLUE);
+  }
+  if(u32counter==10000)
+  {
+   u32counter=0;
+   
+  }
+   LedOff(CYAN);
+   LedOff(GREEN);
+   LedOff(YELLOW);
+   LedOff(ORANGE);
+   LedOff(PURPLE);
+   LedOff(WHITE);
+   LedOff(BLUE);
+  u32counter++;
 } /* end UserApp2SM_Idle() */
      
 #if 0
