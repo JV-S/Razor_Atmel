@@ -60,6 +60,11 @@ Variable names shall start with "UserApp1_" and be declared as static.
 static fnCode_type UserApp1_StateMachine;            /* The state machine function pointer */
 //static u32 UserApp1_u32Timeout;                      /* Timeout counter used across states */
 
+/******************************************************************
+Constants / Definitions
+******************************************************************/
+#define COLOR_CYCLE_TIME   (u16)60    /* Time to hold each color */
+
 
 /**********************************************************************************************************************
 Function Definitions
@@ -88,6 +93,10 @@ Promises:
 void UserApp1Initialize(void)
 {
  
+  LedPWM(LCD_RED, LED_PWM_100);
+  LedPWM(LCD_GREEN, LED_PWM_0);
+  LedPWM(LCD_BLUE, LED_PWM_0);
+  
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -136,7 +145,37 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
-
+  #ifdef MPG1
+  static LedNumberType aeCurrentLed[] = {LCD_GREEN, LCD_RED, LCD_BLUE};
+  #endif /* MPG 1 */
+  static u8 u8CurrentLedIndex  = 0;
+  static u8 u8LedCurrentLevel[]  = {;
+  //static u8 u8DutyCycleCounter = 0;
+  static u16 u16counter = COLOR_CYCLE_TIME;
+  static bool abLedRateIncreasing[]   = {TRUE, FALSE, TRUE};
+  
+  
+  u16counter--;
+  if(u16counter==0)
+  {
+    u16counter = COLOR_CYCLE_TIME;
+    do
+    {
+      if()
+      {}
+      if(abLedRateIncreasing[u8CurrentLedIndex])
+      {
+        u8LedCurrentLevel++;
+      }
+      else
+      {
+        u8LedCurrentLevel--;
+      }
+      
+      LedPWM((LedNumberType)aeCurrentLed[u8CurrentLedIndex], (LedRateType)u8LedCurrentLevel);
+      u8CurrentLedIndex++;
+    }while(u8CurrentLedIndex<3);
+  }
 } /* end UserApp1SM_Idle() */
     
 
