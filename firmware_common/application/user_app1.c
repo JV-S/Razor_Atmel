@@ -87,7 +87,14 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
- 
+  LedOff(WHITE);
+  LedOff(PURPLE);
+  LedOff(BLUE);
+  LedOff(CYAN);
+  LedOff(GREEN);
+  LedOff(YELLOW);
+  LedOff(ORANGE);
+  LedOff(RED);
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -136,7 +143,90 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
-
+  static u8 u8state = 0;
+  static u8 au8password[] = {0,0,0,0,0,0,0,0,0,0,0};
+  static u8 u8index = 0;
+  static u32 u32ycounter = 2000;
+  u32ycounter++;
+  if (u32ycounter<=2000)
+      LedOn(YELLOW);
+  else
+    LedOff(YELLOW);
+  if (u8state==0)
+  {
+    if (WasButtonPressed(BUTTON0))
+    {
+      ButtonAcknowledge(BUTTON0);
+      au8password[u8index]=1;
+      u8index++;
+    }   
+    if (WasButtonPressed(BUTTON1))
+    {
+       ButtonAcknowledge(BUTTON1);
+      au8password[u8index]=2;
+      u8index++;
+    }    
+    if (WasButtonPressed(BUTTON2))
+    {
+       ButtonAcknowledge(BUTTON2);
+      au8password[u8index]=3;
+      u8index++;
+    }
+    if (WasButtonPressed(BUTTON3))
+    {
+       ButtonAcknowledge(BUTTON3);
+       u8index=0;
+      u8state=1;
+    }
+  }
+  if (u8state==1)
+  {
+    LedOn(RED);
+    if (WasButtonPressed(BUTTON0))
+    {
+      ButtonAcknowledge(BUTTON0);
+      if (au8password[u8index]==1)
+        u8index++;
+      else 
+      {
+        u8index=0;
+        u32ycounter=0;
+      }
+    }   
+    if (WasButtonPressed(BUTTON1))
+    {
+      ButtonAcknowledge(BUTTON1);
+      if (au8password[u8index]==2)
+        u8index++;
+      else 
+      {
+        u8index=0;
+        u32ycounter=0;
+      }    }    
+    if (WasButtonPressed(BUTTON2))
+    {
+      ButtonAcknowledge(BUTTON2);
+      if (au8password[u8index]==3)
+        u8index++;
+      else 
+      {
+        u8index=0;
+        u32ycounter=0;
+      }    }
+    if (au8password[u8index]==0)
+      u8state=2;
+    
+  }
+  if (u8state==2)
+  {
+    LedOff(RED);
+    LedOn(GREEN);
+    if (WasButtonPressed(BUTTON2))
+    {
+      ButtonAcknowledge(BUTTON2);
+      LedOff(GREEN);
+      u8state=1;
+    }}
 } /* end UserApp1SM_Idle() */
     
 
