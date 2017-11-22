@@ -214,7 +214,8 @@ static void UserApp1SM_Idle(void)
         u32ycounter=0;
       }    }
     if (au8password[u8index]==0)
-      u8state=2;
+    { u8index=0;
+    u8state=2;}
     
   }
   if (u8state==2)
