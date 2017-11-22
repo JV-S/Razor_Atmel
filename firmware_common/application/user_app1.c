@@ -34,6 +34,7 @@ Runs current task state.  Should only be called once in main loop.
 
 **********************************************************************************************************************/
 
+
 #include "configuration.h"
 
 /***********************************************************************************************************************
@@ -87,7 +88,17 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
- 
+ /*--------------------------------------------------*/
+/* Existing variables (defined in other files)      */
+extern u8 G_au8DebugScanfBuffer[];  /* From debug.c */
+extern u8 G_u8DebugScanfCharCount;  /* From debug.c */
+LedOff(CYAN);
+LedOff(BLUE);
+LedOff(RED);
+LedOff(PURPLE);
+LedOff(GREEN);
+LedOff(ORANGE);
+//LedOff();
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -136,7 +147,17 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
-
+    static u8 u8NumCharsMessage[] = "\n\rCharacters in buffer: ";
+  
+  /* Print message with number of characters in scanf buffer */
+  if(WasButtonPressed(BUTTON0))
+  {
+    ButtonAcknowledge(BUTTON0);
+    
+    DebugPrintf(u8NumCharsMessage);
+    DebugPrintNumber(G_u8DebugScanfCharCount);
+    DebugLineFeed();
+  }
 } /* end UserApp1SM_Idle() */
     
 
